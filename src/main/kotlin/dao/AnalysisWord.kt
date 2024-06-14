@@ -3,7 +3,6 @@ package dao
 import bean.ChooseQuestion
 import bean.JudgeQuestion
 import bean.MultiQuestion
-import util.WordUtil
 
 class AnalysisWord {
     private var lines = mutableListOf<String>()
@@ -172,7 +171,7 @@ class AnalysisWord {
                 }
 
                 2 -> {
-                    if (!bool) a = lines[i].substring(0,if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
+                    if (!bool) a = lines[i].substring(0, if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
                     else {
                         b = lines[i].substring(0, if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
                     }
@@ -188,21 +187,23 @@ class AnalysisWord {
                 }
 
                 4 -> {
-                    if (!bool) c = lines[i].substring(0, if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
+                    if (!bool) {
+                        c = lines[i].substring(0, if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
+                        temp++
+                    }
                     else {
                         d = lines[i].substring(0, if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
-                    }
-                    temp++
-                    if (!bool) d = lines[i].substring(0, if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
-                    else {
                         multiQuestion.add(MultiQuestion(question, a, b, c, d, answer))
                         temp = 0
                     }
+
                 }
 
                 5 -> {
+                    if (!bool) d = lines[i].substring(0, if (lines[i].last()== '\r') lines[i].length - 1 else lines[i].length)
                     multiQuestion.add(MultiQuestion(question, a, b, c, d, answer))
                     temp = 0
+
                 }
             }
         }
@@ -224,8 +225,4 @@ class AnalysisWord {
     companion object {
         val analysisWord = AnalysisWord()
     }
-}
-
-fun main() {
-    WordUtil.wordUtil.readWord("C:\\Users\\zzy\\Downloads\\《习近平新时代中国特色社会主义思想概论》复习题\\第1章复习题.doc")
 }
